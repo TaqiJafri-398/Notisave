@@ -54,11 +54,12 @@
         </LinearLayout>
 
         <TextView
+            android:accessibilityLiveRegion="polite"
             style="@style/Text.Body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/statuses_need_access_msg" />
+            android:text="@string/status_folder_access_detail" />
 
         <Button
             android:id="@+id/btn_grant_storage"

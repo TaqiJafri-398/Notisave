@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="date_range_options">
+        <item>@string/date_any</item><item>@string/date_today</item>
+        <item>@string/date_week</item><item>@string/date_month</item>
+    </string-array>
     <string name="app_name">Noti &amp; Status Saver</string>
     <string name="app_description">Notification Saver helps you securely save, organize, and review your notification history in one place.</string>
     <string name="listener_service_label">Notisave Listener</string>
@@ -94,7 +98,7 @@
     <string name="developer_role">Developer</string>
     <string name="contact_whatsapp">WhatsApp: 03077982214</string>
     <string name="btn_whatsapp">Chat on WhatsApp</string>
-    <string name="app_version">Version 1.0</string>
+    <string name="app_version">Version 1.2.0</string>
     <string name="whatsapp_open_failed">Could not open WhatsApp</string>
 
     <!-- Statuses -->
@@ -107,7 +111,9 @@
     <string name="status_folder_picked">WhatsApp folder selected</string>
     <string name="status_folder_failed">Could not use that folder — please try again</string>
     <string name="statuses_empty">No statuses found</string>
-    <string name="statuses_empty_hint">View a status in WhatsApp first — it will appear here. If statuses still don\'t show, grant file access above.</string>
+    <string name="statuses_empty_hint">Open WhatsApp and view a status first. Then tap Choose WhatsApp Folder, select WhatsApp → Media, and tap Use this folder. If access was revoked, choose the folder again.</string>
+    <string name="status_folder_access_title">Connect WhatsApp statuses</string>
+    <string name="status_folder_access_detail">Notisave only reads the folder you select with Android’s system picker. It does not need all-files access.</string>
     <string name="filter_images">Images</string>
     <string name="filter_videos">Videos</string>
     <string name="filter_saved">Saved</string>
@@ -122,11 +128,44 @@
     <string name="home_statuses_subtitle">View and save statuses</string>
     <string name="btn_open">Open</string>
     <string name="viewer_saved">Saved ✓</string>
+    <string name="preview_hidden">Preview hidden</string>
+    <string name="pause_capture">Pause notification saving</string>
+    <string name="redact_previews">Hide message previews in history</string>
+    <string name="capture_paused">Notification saving paused</string>
+    <string name="filter_unread">Unread only</string>
+    <string name="prune_confirm_title">Delete old notification history?</string>
+    <string name="prune_confirm_message">This permanently deletes notifications older than %1$d days.</string>
+    <string name="app_lock">Lock Notisave</string>
+    <string name="app_lock_title">Unlock Notisave</string>
+    <string name="app_lock_message">Confirm your screen lock or biometric to view saved notifications.</string>
+    <string name="app_lock_retry_message">Authentication was cancelled or failed. Try again to unlock, or exit the app.</string>
+    <string name="app_lock_unavailable">App lock requires Android 10 or later.</string>
+    <string name="app_lock_setup_device">Set a secure screen lock on your device to enable app lock.</string>
+    <string name="backup_section">Encrypted backup</string>
+    <string name="backup_export">Create encrypted backup</string>
+    <string name="backup_import">Restore encrypted backup</string>
+    <string name="backup_password_title">Backup password</string>
+    <string name="backup_password_hint">At least 8 characters</string>
+    <string name="backup_password_message">Keep this password safe. It cannot be recovered, and the backup cannot be opened without it.</string>
+    <string name="backup_password_short">Use a password with at least 8 characters.</string>
+    <string name="backup_export_done">Encrypted backup created.</string>
+    <string name="backup_import_done">Restored %1$d notifications. Existing history was kept.</string>
+    <string name="backup_failed">Could not use this backup. Check the file and password. %1$s</string>
+    <string name="backup_working">Processing encrypted backup…</string>
+    <string name="date_range">Date range</string>
+    <string name="date_any">Any time</string>
+    <string name="date_today">Today</string>
+    <string name="date_week">Last 7 days</string>
+    <string name="date_month">Last 30 days</string>
+    <string name="search_notifications">Search notifications</string>
+    <string name="clear_search">Clear notification search</string>
+    <string name="select_whatsapp_folder">Select WhatsApp media folder</string>
 
     <!-- First run -->
     <string name="welcome_title">Welcome to Notisave</string>
     <string name="welcome_msg">Notisave saves your notifications on this device so you can read them later — even after they are cleared or a message is deleted.\n\nTo start, grant Notification Access on the next screen.</string>
     <string name="btn_continue">Continue</string>
+    <string name="btn_retry">Try Again</string>
     <string name="btn_not_now">Not Now</string>
     <string name="privacy_dialog_title">Privacy Notice</string>
     <string name="btn_understand">I Understand</string>

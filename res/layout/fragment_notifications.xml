@@ -64,14 +64,28 @@
 
         <ImageButton
             android:id="@+id/btn_clear_search"
+            android:contentDescription="@string/clear_search"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/btn_cancel"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
             android:tint="?attr/textSecondary"
             android:visibility="gone" />
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/filter_unread"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_unread"
+        android:textColor="?attr/textPrimary" />
+
+    <Spinner
+        android:id="@+id/date_range_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/date_range"
+        android:entries="@array/date_range_options" />
 
     <!-- Filter chips -->
     <HorizontalScrollView

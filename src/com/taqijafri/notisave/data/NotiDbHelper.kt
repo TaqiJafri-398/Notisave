@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import java.io.File
 
 /**
  * Local SQLite storage for saved notifications.
@@ -11,6 +12,10 @@ import android.database.sqlite.SQLiteOpenHelper
  */
 class NotiDbHelper private constructor(context: Context) :
     SQLiteOpenHelper(context.applicationContext, DB_NAME, null, DB_VERSION) {
+
+    init {
+        setWriteAheadLoggingEnabled(true)
+    }
 
     companion object {
         const val DB_NAME = "notisave.db"
@@ -103,22 +108,37 @@ class NotiDbHelper private constructor(context: Context) :
      * Notifications newest-first, optionally filtered by package and/or search text.
      * Search matches app name, sender (title) and message content.
      */
-    fun getNotifications(packageFilter: String?, query: String?, limit: Int = 500): List<SavedNotification> {
+    fun getNotifications(packageFilter: String?, query: String?, limit: Int = 500, unreadOnly: Boolean = false, fromMs: Long? = null, toMs: Long? = null, offset: Int = 0): List<SavedNotification> {
+        if (limit <= 0) return emptyList()
         val where = StringBuilder()
         val args = ArrayList<String>()
+        fun addClause(clause: String) {
+            if (where.isNotEmpty()) where.append(" AND ")
+            where.append(clause)
+        }
+        if (unreadOnly) {
+            addClause("is_read=0")
+        }
+        if (fromMs != null) {
+            addClause("post_time>=?")
+            args.add(fromMs.toString())
+        }
+        if (toMs != null) {
+            addClause("post_time<?")
+            args.add(toMs.toString())
+        }
         if (!packageFilter.isNullOrBlank()) {
-            where.append("package_name=?")
+            addClause("package_name=?")
             args.add(packageFilter)
         }
         if (!query.isNullOrBlank()) {
-            if (where.isNotEmpty()) where.append(" AND ")
-            where.append("(app_name LIKE ? OR title LIKE ? OR text LIKE ? OR big_text LIKE ?)")
+            addClause("(app_name LIKE ? OR title LIKE ? OR text LIKE ? OR big_text LIKE ?)")
             val q = "%$query%"
             args.add(q); args.add(q); args.add(q); args.add(q)
         }
         val sql = "SELECT * FROM $T_NOTI" +
             (if (where.isNotEmpty()) " WHERE $where" else "") +
-            " ORDER BY post_time DESC LIMIT $limit"
+            " ORDER BY post_time DESC, id DESC LIMIT $limit OFFSET ${offset.coerceAtLeast(0)}"
         val c = readableDatabase.rawQuery(sql, args.toTypedArray())
         val out = ArrayList<SavedNotification>()
         while (c.moveToNext()) out.add(rowToNotification(c))
@@ -127,6 +147,56 @@ class NotiDbHelper private constructor(context: Context) :
     }
 
     fun getRecent(limit: Int = 5): List<SavedNotification> = getNotifications(null, null, limit)
+
+    fun getAllNotifications(): List<SavedNotification> {
+        val c = readableDatabase.rawQuery("SELECT * FROM $T_NOTI ORDER BY post_time DESC", null)
+        val out = ArrayList<SavedNotification>()
+        while (c.moveToNext()) out.add(rowToNotification(c))
+        c.close()
+        return out
+    }
+
+    fun forEachNotificationSnapshot(action: (SavedNotification) -> Unit) {
+        readableDatabase.rawQuery(
+            "SELECT * FROM $T_NOTI ORDER BY post_time DESC, id DESC", null
+        ).use { cursor ->
+            while (cursor.moveToNext()) action(rowToNotification(cursor))
+        }
+    }
+
+    fun restoreNotifications(items: List<SavedNotification>): Int {
+        val db = writableDatabase
+        var inserted = 0
+        data class DuplicateKey(val pkg: String, val title: String, val text: String, val bigText: String, val time: Long)
+        db.beginTransaction()
+        try {
+            val keys = HashSet<DuplicateKey>()
+            db.rawQuery("SELECT package_name,title,text,big_text,post_time FROM $T_NOTI", null).use { c ->
+                while (c.moveToNext()) keys.add(DuplicateKey(
+                    c.getString(0) ?: "", c.getString(1) ?: "", c.getString(2) ?: "",
+                    c.getString(3) ?: "", c.getLong(4)
+                ))
+            }
+            for (n in items) {
+                val key = DuplicateKey(n.packageName, n.title, n.text, n.bigText, n.postTime)
+                if (!keys.add(key)) continue
+                val values = ContentValues().apply {
+                    put("package_name", n.packageName)
+                    put("app_name", n.appName)
+                    put("title", n.title)
+                    put("text", n.text)
+                    put("big_text", n.bigText)
+                    put("post_time", n.postTime)
+                    put("is_read", if (n.isRead) 1 else 0)
+                }
+                if (db.insert(T_NOTI, null, values) != -1L) inserted++
+            }
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
+        }
+        return inserted
+    }
 
     fun getById(id: Long): SavedNotification? {
         val c = readableDatabase.rawQuery(
@@ -237,7 +307,8 @@ class NotiDbHelper private constructor(context: Context) :
     // ---------- storage ----------
 
     fun getDbSizeBytes(context: Context): Long {
-        val f = context.getDatabasePath(DB_NAME)
-        return if (f.exists()) f.length() else 0L
+        val database = context.getDatabasePath(DB_NAME)
+        return listOf(database, File("${database.path}-wal"), File("${database.path}-shm"))
+            .sumOf { if (it.exists()) it.length() else 0L }
     }
 }

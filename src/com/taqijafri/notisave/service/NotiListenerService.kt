@@ -46,6 +46,7 @@ class NotiListenerService : NotificationListenerService() {
 
     override fun onNotificationPosted(sbn: StatusBarNotification) {
         val pkg = sbn.packageName ?: return
+        if (Prefs(this).capturePaused) return
         if (pkg in Constants.BLOCKED_PACKAGES) return
 
         val notification = sbn.notification ?: return

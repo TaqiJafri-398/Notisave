@@ -49,11 +49,20 @@ Produces a signed `Notisave.apk` (release keystore: `notisave-release.keystore`)
 
 ## Privacy
 
-Notifications may contain personal information. Notisave stores them only in a
-local database on the device and never uploads them. It does not bypass
-encryption or access private app databases, and it cannot recover messages
-that were never delivered as notifications.
+Notifications may contain personal information. Notisave stores them in a
+local database and does not upload or sync them. Android Auto Backup is disabled
+for this app, so the database is not included in device backup. Optional backups
+are created only when you export them and are password-encrypted with AES-GCM;
+where you save or share an exported file is outside the app's control. Keep the
+password safe because it cannot be recovered. App lock uses Android device authentication (Android 10+). Notification
+history can be filtered to today, the last 7 days, or the last 30 days. The app
+does not bypass encryption or access private app databases, and it cannot recover
+messages that were never delivered as notifications.
 
 ## Developer
 
 Muhammad Taqi — WhatsApp 03077982214
+
+## Development checks
+
+Run `python3 tests/check_manifest_permissions.py` to verify the app's intentionally small manifest permission set. See [CHANGELOG.md](CHANGELOG.md) for release notes.

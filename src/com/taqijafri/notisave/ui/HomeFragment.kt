@@ -14,6 +14,7 @@ import android.widget.TextView
 import com.taqijafri.notisave.MainActivity
 import com.taqijafri.notisave.R
 import com.taqijafri.notisave.data.NotiDbHelper
+import com.taqijafri.notisave.data.Prefs
 import com.taqijafri.notisave.util.AppInfo
 import com.taqijafri.notisave.util.Constants
 import com.taqijafri.notisave.util.ListenerHelper
@@ -117,6 +118,7 @@ class HomeFragment : Fragment() {
         val recentContainer = view.findViewById<LinearLayout>(R.id.recent_container)
         recentContainer.removeAllViews()
         val recent = db.getRecent(5)
+        val redact = Prefs(activity).redactPreviews
         if (recent.isEmpty()) {
             val empty = TextView(activity).apply {
                 text = getString(R.string.empty_hint)
@@ -135,9 +137,9 @@ class HomeFragment : Fragment() {
                 row.findViewById<TextView>(R.id.item_app_name).text = n.appName
                 row.findViewById<TextView>(R.id.item_time).text =
                     TimeUtils.relativeTime(n.postTime)
-                row.findViewById<TextView>(R.id.item_title).text =
-                    if (n.title.isNotBlank()) n.title else n.appName
-                row.findViewById<TextView>(R.id.item_text).text = n.text
+                row.findViewById<TextView>(R.id.item_title).text = if (redact) getString(R.string.preview_hidden)
+                    else if (n.title.isNotBlank()) n.title else n.appName
+                row.findViewById<TextView>(R.id.item_text).text = if (redact) getString(R.string.preview_hidden) else n.text
                 row.findViewById<View>(R.id.item_unread_dot).visibility =
                     if (n.isRead) View.GONE else View.VISIBLE
                 row.setOnClickListener {
