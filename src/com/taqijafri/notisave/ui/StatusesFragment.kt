@@ -37,6 +37,7 @@ class StatusesFragment : Fragment() {
     private lateinit var countText: TextView
     private lateinit var saveAllBtn: Button
     private lateinit var toolbar: View
+    private lateinit var newDot: View
 
     private var filter = Filter.ALL
     private var allStatuses: List<StatusFile> = emptyList()
@@ -53,6 +54,7 @@ class StatusesFragment : Fragment() {
         countText = view.findViewById(R.id.status_count)
         saveAllBtn = view.findViewById(R.id.btn_save_all)
         toolbar = view.findViewById(R.id.status_toolbar)
+        newDot = view.findViewById(R.id.status_new_dot)
 
         adapter = StatusAdapter(
             activity,
@@ -64,6 +66,11 @@ class StatusesFragment : Fragment() {
 
         view.findViewById<Button>(R.id.btn_grant_storage).setOnClickListener {
             StatusHelper.openFolderPicker(this)
+        }
+        view.findViewById<Button>(R.id.btn_view_saved).setOnClickListener {
+            filter = Filter.SAVED
+            buildChips()
+            applyFilter()
         }
         saveAllBtn.setOnClickListener {
             val unsaved = currentItems()
@@ -131,6 +138,8 @@ class StatusesFragment : Fragment() {
         grid.visibility = if (empty) View.GONE else View.VISIBLE
         emptyState.visibility = if (empty) View.VISIBLE else View.GONE
         countText.text = getString(R.string.statuses_count, items.size)
+        val unsavedCount = items.count { !it.isSavedCopy && !StatusHelper.isSaved(activity, it) }
+        newDot.visibility = if (filter != Filter.SAVED && unsavedCount > 0) View.VISIBLE else View.GONE
         saveAllBtn.visibility =
             if (filter == Filter.SAVED || items.isEmpty()) View.GONE else View.VISIBLE
     }
@@ -152,10 +161,14 @@ class StatusesFragment : Fragment() {
     }
 
     private fun addChip(label: String, isSelected: Boolean, onClick: () -> Unit) {
+        val ta = activity.obtainStyledAttributes(intArrayOf(R.attr.textPrimary, R.attr.inkOnFilled))
+        val primaryColor = ta.getColor(0, Color.BLACK)
+        val onFilledColor = ta.getColor(1, Color.WHITE)
+        ta.recycle()
         val chip = TextView(activity).apply {
             text = label
             textSize = 13f
-            setPadding(28, 16, 28, 16)
+            setPadding(32, 16, 32, 16)
             val lp = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -164,12 +177,10 @@ class StatusesFragment : Fragment() {
             layoutParams = lp
             if (isSelected) {
                 setBackgroundResource(R.drawable.bg_chip_selected)
-                setTextColor(Color.WHITE)
+                setTextColor(onFilledColor)
             } else {
                 setBackgroundResource(R.drawable.bg_chip)
-                val ta = activity.obtainStyledAttributes(intArrayOf(R.attr.textPrimary))
-                setTextColor(ta.getColor(0, Color.BLACK))
-                ta.recycle()
+                setTextColor(primaryColor)
             }
             setOnClickListener { onClick() }
         }

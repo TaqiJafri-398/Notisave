@@ -32,6 +32,10 @@ class AppsFragment : Fragment() {
         val listView = view.findViewById<ListView>(R.id.apps_list)
         adapter = AppAdapter(activity, emptyList()) { entry, enabled ->
             db.setAppEnabled(entry.packageName, enabled)
+            allApps = allApps.map {
+                if (it.packageName == entry.packageName) it.copy(enabled = enabled) else it
+            }
+            updateSectionLabel()
         }
         listView.adapter = adapter
 
@@ -94,7 +98,14 @@ class AppsFragment : Fragment() {
             }
         }
         adapter.update(filtered)
+        updateSectionLabel()
         view.findViewById<TextView>(R.id.apps_empty).visibility =
             if (filtered.isEmpty()) View.VISIBLE else View.GONE
+    }
+
+    private fun updateSectionLabel() {
+        val label = view?.findViewById<TextView>(R.id.apps_section_label) ?: return
+        val savingCount = allApps.count { it.enabled }
+        label.text = getString(R.string.apps_saving_from, savingCount)
     }
 }

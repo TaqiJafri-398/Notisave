@@ -11,12 +11,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.Spinner
+import android.widget.AdapterView
+import java.util.Calendar
 import com.taqijafri.notisave.R
 import com.taqijafri.notisave.data.NotiDbHelper
 import com.taqijafri.notisave.data.SavedNotification
@@ -39,18 +43,40 @@ class NotificationsFragment : Fragment() {
     private var selectedPackage: String? = null
     private var deletedMode: Boolean = false
     private var currentQuery: String = ""
+    private var unreadOnly = false
+    private var dateRange = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment_notifications, container, false)
         db = NotiDbHelper.getInstance(activity)
+        unreadOnly = savedInstanceState?.getBoolean("unread_only") ?: false
+        dateRange = savedInstanceState?.getInt("date_range") ?: 0
+        selectedPackage = savedInstanceState?.getString("selected_package")
+        deletedMode = savedInstanceState?.getBoolean("deleted_mode") ?: false
+        currentQuery = savedInstanceState?.getString("query").orEmpty()
 
         listView = view.findViewById(R.id.notification_list)
         emptyState = view.findViewById(R.id.empty_state)
         chipRow = view.findViewById(R.id.chip_row)
         deletedNote = view.findViewById(R.id.deleted_note)
         searchBox = view.findViewById(R.id.search_box)
+        searchBox.setText(currentQuery)
+        view.findViewById<CheckBox>(R.id.filter_unread).isChecked = unreadOnly
+        view.findViewById<Spinner>(R.id.date_range_filter).setSelection(dateRange)
+        view.findViewById<CheckBox>(R.id.filter_unread).setOnCheckedChangeListener { _, checked ->
+            unreadOnly = checked
+            reload()
+        }
+        view.findViewById<Spinner>(R.id.date_range_filter).onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+                override fun onItemSelected(parent: AdapterView<*>?, v: View?, position: Int, id: Long) {
+                    dateRange = position
+                    reload()
+                }
+            }
 
         adapter = NotificationAdapter(
             activity,
@@ -79,6 +105,8 @@ class NotificationsFragment : Fragment() {
                 reload()
             }
         })
+        view.findViewById<ImageButton>(R.id.btn_clear_search).visibility =
+            if (currentQuery.isEmpty()) View.GONE else View.VISIBLE
         view.findViewById<ImageButton>(R.id.btn_clear_search).setOnClickListener {
             searchBox.setText("")
         }
@@ -95,11 +123,30 @@ class NotificationsFragment : Fragment() {
         reload()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean("unread_only", unreadOnly)
+        outState.putInt("date_range", dateRange)
+        outState.putString("selected_package", selectedPackage)
+        outState.putBoolean("deleted_mode", deletedMode)
+        outState.putString("query", currentQuery)
+        super.onSaveInstanceState(outState)
+    }
+
     fun reload() {
         if (!::db.isInitialized) return
+        val now = System.currentTimeMillis()
+        val start = when (dateRange) {
+            1 -> Calendar.getInstance().apply { set(Calendar.HOUR_OF_DAY, 0); set(Calendar.MINUTE, 0); set(Calendar.SECOND, 0); set(Calendar.MILLISECOND, 0) }.timeInMillis
+            2 -> now - 7L * 24 * 60 * 60 * 1000
+            3 -> now - 30L * 24 * 60 * 60 * 1000
+            else -> null
+        }
         val raw = db.getNotifications(
             packageFilter = selectedPackage,
-            query = currentQuery.ifBlank { null }
+            query = currentQuery.ifBlank { null },
+            unreadOnly = unreadOnly,
+            fromMs = start,
+            toMs = if (dateRange == 1) now + 1 else null
         )
         val items = if (deletedMode) {
             raw.filter { it.packageName in Constants.WHATSAPP_PACKAGES }
@@ -139,10 +186,14 @@ class NotificationsFragment : Fragment() {
     }
 
     private fun addChip(label: String, isSelected: Boolean, onClick: () -> Unit) {
+        val ta = activity.obtainStyledAttributes(intArrayOf(R.attr.textPrimary, R.attr.inkOnFilled))
+        val primaryColor = ta.getColor(0, Color.BLACK)
+        val onFilledColor = ta.getColor(1, Color.WHITE)
+        ta.recycle()
         val chip = TextView(activity).apply {
             text = label
             textSize = 13f
-            setPadding(28, 16, 28, 16)
+            setPadding(32, 16, 32, 16)
             val lp = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -151,18 +202,12 @@ class NotificationsFragment : Fragment() {
             layoutParams = lp
             if (isSelected) {
                 setBackgroundResource(R.drawable.bg_chip_selected)
-                setTextColor(Color.WHITE)
+                setTextColor(onFilledColor)
             } else {
                 setBackgroundResource(R.drawable.bg_chip)
-                setTextColor(resources.getColor(android.R.color.black))
+                setTextColor(primaryColor)
             }
             setOnClickListener { onClick() }
-        }
-        // Re-resolve text color from the theme so dark mode stays readable.
-        if (!isSelected) {
-            val ta = activity.obtainStyledAttributes(intArrayOf(R.attr.textPrimary))
-            chip.setTextColor(ta.getColor(0, Color.BLACK))
-            ta.recycle()
         }
         chipRow.addView(chip)
     }

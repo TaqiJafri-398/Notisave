@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.Notisave.Light" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:colorPrimary">@color/primary</item>
-        <item name="android:colorPrimaryDark">@color/primary_dark</item>
-        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:colorPrimary">@color/text_primary_light</item>
+        <item name="android:colorPrimaryDark">@color/page_bg_light</item>
+        <item name="android:colorAccent">@color/text_primary_light</item>
         <item name="android:windowBackground">@color/page_bg_light</item>
-        <item name="android:statusBarColor">@color/primary_dark</item>
+        <item name="android:statusBarColor">@color/page_bg_light</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@color/nav_bg_light</item>
+        <item name="android:popupMenuStyle">@style/Nothing.PopupMenu</item>
         <item name="pageBackground">@color/page_bg_light</item>
         <item name="cardBackground">@color/card_bg_light</item>
         <item name="textPrimary">@color/text_primary_light</item>
         <item name="textSecondary">@color/text_secondary_light</item>
         <item name="dividerColor">@color/divider_light</item>
+        <item name="outlineStrong">@color/outline_strong_light</item>
+        <item name="inkOnFilled">@color/ink_on_filled_light</item>
+        <item name="disabledColor">@color/disabled_light</item>
+        <item name="accentRed">@color/accent_red</item>
         <item name="chipBackground">@color/chip_bg_light</item>
         <item name="navBackground">@color/nav_bg_light</item>
         <item name="navUnselected">@color/nav_unselected_light</item>
@@ -23,17 +29,23 @@
     </style>
 
     <style name="Theme.Notisave.Dark" parent="android:Theme.Material.NoActionBar">
-        <item name="android:colorPrimary">@color/primary</item>
-        <item name="android:colorPrimaryDark">@color/primary_dark</item>
-        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:colorPrimary">@color/text_primary_dark</item>
+        <item name="android:colorPrimaryDark">@color/page_bg_dark</item>
+        <item name="android:colorAccent">@color/text_primary_dark</item>
         <item name="android:windowBackground">@color/page_bg_dark</item>
         <item name="android:statusBarColor">@color/page_bg_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:navigationBarColor">@color/nav_bg_dark</item>
+        <item name="android:popupMenuStyle">@style/Nothing.PopupMenu</item>
         <item name="pageBackground">@color/page_bg_dark</item>
         <item name="cardBackground">@color/card_bg_dark</item>
         <item name="textPrimary">@color/text_primary_dark</item>
         <item name="textSecondary">@color/text_secondary_dark</item>
         <item name="dividerColor">@color/divider_dark</item>
+        <item name="outlineStrong">@color/outline_strong_dark</item>
+        <item name="inkOnFilled">@color/ink_on_filled_dark</item>
+        <item name="disabledColor">@color/disabled_dark</item>
+        <item name="accentRed">@color/accent_red</item>
         <item name="chipBackground">@color/chip_bg_dark</item>
         <item name="navBackground">@color/nav_bg_dark</item>
         <item name="navUnselected">@color/nav_unselected_dark</item>
@@ -44,21 +56,42 @@
         <item name="dangerColor">@color/danger_dark</item>
     </style>
 
+    <style name="Nothing.PopupMenu" parent="android:Widget.Material.PopupMenu">
+        <item name="android:popupBackground">@drawable/bg_card</item>
+        <item name="android:popupElevation">0dp</item>
+    </style>
+
+    <!-- Dot-matrix display font: ONLY for screen titles (24sp) and section labels (13sp ALL CAPS) -->
     <style name="Text.Title" parent="android:TextAppearance.Material.Title">
         <item name="android:textColor">?attr/textPrimary</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/dotgothic16</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.02</item>
     </style>
 
     <style name="Text.SectionTitle" parent="android:TextAppearance.Material.Subhead">
+        <item name="android:textColor">?attr/textSecondary</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">@font/dotgothic16</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.08</item>
+    </style>
+
+    <style name="Text.BodyStrong" parent="android:TextAppearance.Material.Body1">
         <item name="android:textColor">?attr/textPrimary</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="Text.Body" parent="android:TextAppearance.Material.Body1">
         <item name="android:textColor">?attr/textPrimary</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Subtitle" parent="android:TextAppearance.Material.Body1">
+        <item name="android:textColor">?attr/textSecondary</item>
+        <item name="android:textSize">13sp</item>
     </style>
 
     <style name="Text.Caption" parent="android:TextAppearance.Material.Caption">
@@ -68,23 +101,52 @@
 
     <style name="Button.Primary" parent="android:Widget.Material.Button">
         <item name="android:background">@drawable/bg_button_primary</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/inkOnFilled</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:paddingStart">20dp</item>
-        <item name="android:paddingEnd">20dp</item>
-        <item name="android:minHeight">44dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:minWidth">0dp</item>
     </style>
 
     <style name="Button.Outline" parent="android:Widget.Material.Button">
         <item name="android:background">@drawable/bg_button_outline</item>
-        <item name="android:textColor">@color/primary</item>
+        <item name="android:textColor">?attr/textPrimary</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:paddingStart">20dp</item>
-        <item name="android:paddingEnd">20dp</item>
-        <item name="android:minHeight">44dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:minWidth">0dp</item>
+    </style>
+
+    <style name="Nothing.Switch" parent="android:Widget.Material.CompoundButton.Switch">
+        <item name="android:track">@drawable/switch_track</item>
+        <item name="android:thumb">@drawable/switch_thumb</item>
+        <item name="android:showText">false</item>
+        <item name="android:textColor">?attr/textPrimary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:switchMinWidth">44dp</item>
+    </style>
+
+    <style name="Nothing.SegmentedOption" parent="android:Widget.Material.CompoundButton.RadioButton">
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/bg_segmented_item</item>
+        <item name="android:textColor">@color/segmented_text</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">9dp</item>
+        <item name="android:paddingBottom">9dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:maxLines">1</item>
     </style>
 </resources>

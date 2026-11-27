@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="page_padding">16dp</dimen>
-    <dimen name="card_radius">14dp</dimen>
-    <dimen name="card_padding">14dp</dimen>
-    <dimen name="card_margin_bottom">10dp</dimen>
-    <dimen name="app_icon_size">44dp</dimen>
+    <dimen name="page_padding">20dp</dimen>
+    <dimen name="section_gap">24dp</dimen>
+    <dimen name="row_padding_v">14dp</dimen>
+    <dimen name="card_radius">16dp</dimen>
+    <dimen name="card_padding">16dp</dimen>
+    <dimen name="card_margin_bottom">8dp</dimen>
+    <dimen name="app_icon_size">40dp</dimen>
     <dimen name="app_icon_radius">12dp</dimen>
-    <dimen name="nav_icon_size">24dp</dimen>
-    <dimen name="stat_number">22sp</dimen>
+    <dimen name="nav_icon_size">22dp</dimen>
+    <dimen name="stat_number">24sp</dimen>
 </resources>

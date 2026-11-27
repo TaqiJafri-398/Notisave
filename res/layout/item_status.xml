@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="180dp"
-    android:background="@drawable/bg_card">
+    android:background="@drawable/bg_stat_card"
+    android:padding="1dp">
 
     <ImageView
         android:id="@+id/status_thumb"
@@ -10,13 +11,27 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
-    <!-- Video badge -->
+    <!-- Unsaved/new red dot (top-left) -->
+    <View
+        android:id="@+id/status_unseen_dot"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_gravity="top|start"
+        android:layout_margin="8dp"
+        android:background="@drawable/bg_dot"
+        android:visibility="gone" />
+
+    <!-- Video badge (bottom-left black pill) -->
     <ImageView
         android:id="@+id/status_play"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_gravity="center"
+        android:layout_width="28dp"
+        android:layout_height="22dp"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="6dp"
+        android:background="@drawable/bg_video_pill"
+        android:padding="4dp"
         android:src="@drawable/ic_play"
+        android:tint="@color/white"
         android:visibility="gone" />
 
     <!-- Saved badge -->
@@ -24,9 +39,9 @@
         android:id="@+id/status_saved_badge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|start"
+        android:layout_gravity="bottom|end"
         android:layout_margin="6dp"
-        android:background="@drawable/bg_badge"
+        android:background="@drawable/bg_video_pill"
         android:paddingStart="8dp"
         android:paddingTop="3dp"
         android:paddingEnd="8dp"
@@ -34,19 +49,18 @@
         android:text="@string/viewer_saved"
         android:textColor="@color/white"
         android:textSize="10sp"
-        android:textStyle="bold"
         android:visibility="gone" />
 
-    <!-- Save button -->
+    <!-- Save button (top-right white pill, ink icon) -->
     <ImageButton
         android:id="@+id/status_save_btn"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_gravity="bottom|end"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="top|end"
         android:layout_margin="6dp"
-        android:background="@drawable/bg_button_primary"
+        android:background="@drawable/bg_save_pill"
         android:contentDescription="@string/btn_save"
         android:padding="6dp"
         android:src="@drawable/ic_download"
-        android:tint="@color/white" />
+        android:tint="@color/black" />
 </FrameLayout>

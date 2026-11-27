@@ -1,6 +1,7 @@
 package com.taqijafri.notisave.ui
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import android.widget.TextView
 import com.taqijafri.notisave.R
 import com.taqijafri.notisave.data.AppEntry
 import com.taqijafri.notisave.data.SavedNotification
+import com.taqijafri.notisave.data.Prefs
 import com.taqijafri.notisave.util.AppInfo
 import com.taqijafri.notisave.util.TimeUtils
 
@@ -26,6 +28,7 @@ class NotificationAdapter(
 
     private val inflater = LayoutInflater.from(context)
     private val iconCache = HashMap<String, Drawable?>()
+    private val redactPreviews = Prefs(context).redactPreviews
 
     fun update(newItems: List<SavedNotification>) {
         items = newItems
@@ -61,9 +64,13 @@ class NotificationAdapter(
 
         appName.text = n.appName
         time.text = TimeUtils.relativeTime(n.postTime)
-        title.text = if (n.title.isNotBlank()) n.title else n.appName
-        text.text = n.text
+        title.text = if (redactPreviews) context.getString(R.string.preview_hidden)
+            else if (n.title.isNotBlank()) n.title else n.appName
+        text.text = if (redactPreviews) context.getString(R.string.preview_hidden) else n.text
         dot.visibility = if (n.isRead) View.GONE else View.VISIBLE
+        val ta = context.obtainStyledAttributes(intArrayOf(R.attr.textPrimary, R.attr.textSecondary))
+        title.setTextColor(if (n.isRead) ta.getColor(1, Color.GRAY) else ta.getColor(0, Color.BLACK))
+        ta.recycle()
 
         view.setOnClickListener { onItemClick(n) }
         deleteBtn.setOnClickListener { onDelete(n) }

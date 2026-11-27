@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.MediaController
@@ -16,9 +17,14 @@ import com.taqijafri.notisave.util.StatusFile
 import com.taqijafri.notisave.util.StatusHelper
 import com.taqijafri.notisave.util.ThemeHelper
 import com.taqijafri.notisave.util.TimeUtils
+import com.taqijafri.notisave.util.AppLockGate
+import com.taqijafri.notisave.data.Prefs
 
 /** Full-screen viewer for one WhatsApp status, with a Save button. */
 class StatusViewerActivity : Activity() {
+    private var lockedContent: View? = null
+    private var lockAuthInProgress = false
+    private var videoPrepared = false
 
     companion object {
         const val EXTRA_URI = "uri"
@@ -35,6 +41,9 @@ class StatusViewerActivity : Activity() {
         ThemeHelper.applyTheme(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_status_viewer)
+        if (com.taqijafri.notisave.data.Prefs(this).appLockEnabled) window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        lockedContent = findViewById(android.R.id.content)
+        if (AppLockGate.requiresUnlock(this)) lockedContent?.visibility = View.INVISIBLE
 
         val uriString = intent.getStringExtra(EXTRA_URI) ?: run { finish(); return }
         status = StatusFile(
@@ -55,7 +64,10 @@ class StatusViewerActivity : Activity() {
             val controller = MediaController(this)
             controller.setAnchorView(videoView)
             videoView.setMediaController(controller)
-            videoView.setOnPreparedListener { it.start() }
+            videoView.setOnPreparedListener {
+                videoPrepared = true
+                if (!AppLockGate.requiresUnlock(this)) it.start()
+            }
         } else {
             imageView.visibility = View.VISIBLE
             val bitmap = StatusHelper.thumbnail(this, status, 1080)
@@ -110,5 +122,34 @@ class StatusViewerActivity : Activity() {
     override fun onPause() {
         super.onPause()
         findViewById<VideoView>(R.id.viewer_video).pause()
+        if (Prefs(this).appLockEnabled) {
+            lockedContent?.visibility = View.INVISIBLE
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (Prefs(this).appLockEnabled) window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        else window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        if (AppLockGate.requiresUnlock(this)) {
+            lockedContent?.visibility = View.INVISIBLE
+            if (!lockAuthInProgress) authenticateForLock()
+        } else revealContent()
+    }
+
+    private fun revealContent() {
+        lockedContent?.visibility = View.VISIBLE
+        if (videoPrepared && status.isVideo && !AppLockGate.requiresUnlock(this)) {
+            findViewById<VideoView>(R.id.viewer_video).start()
+        }
+    }
+
+    private fun authenticateForLock() {
+        if (lockAuthInProgress || isFinishing) return
+        lockAuthInProgress = true
+        AppLockGate.authenticateWithRetry(this) {
+            lockAuthInProgress = false
+            revealContent()
+        }
     }
 }

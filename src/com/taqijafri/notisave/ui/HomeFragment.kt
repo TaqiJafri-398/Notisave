@@ -2,7 +2,6 @@ package com.taqijafri.notisave.ui
 
 import android.app.Fragment
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,12 +13,14 @@ import android.widget.TextView
 import com.taqijafri.notisave.MainActivity
 import com.taqijafri.notisave.R
 import com.taqijafri.notisave.data.NotiDbHelper
+import com.taqijafri.notisave.data.Prefs
 import com.taqijafri.notisave.util.AppInfo
 import com.taqijafri.notisave.util.Constants
 import com.taqijafri.notisave.util.ListenerHelper
+import com.taqijafri.notisave.util.StatusHelper
 import com.taqijafri.notisave.util.TimeUtils
 
-/** Dashboard: access status, statistics, top apps, recent notifications. */
+/** Dashboard: pending setup, statistics, top apps, recent notifications. */
 class HomeFragment : Fragment() {
 
     private lateinit var db: NotiDbHelper
@@ -39,7 +40,7 @@ class HomeFragment : Fragment() {
         view.findViewById<TextView>(R.id.see_all_recent).setOnClickListener {
             (activity as? MainActivity)?.selectTab(MainActivity.TAB_NOTIFICATIONS)
         }
-        view.findViewById<LinearLayout>(R.id.statuses_card).setOnClickListener {
+        view.findViewById<View>(R.id.statuses_card).setOnClickListener {
             (activity as? MainActivity)?.selectTab(MainActivity.TAB_STATUSES)
         }
         view.findViewById<Button>(R.id.btn_open_statuses).setOnClickListener {
@@ -57,24 +58,26 @@ class HomeFragment : Fragment() {
         val view = view ?: return
         val activity = activity ?: return
 
-        // --- access status ---
-        val enabled = ListenerHelper.isListenerEnabled(activity)
+        // --- access & statuses cards ---
+        val listenerEnabled = ListenerHelper.isListenerEnabled(activity)
+        val folderGranted = StatusHelper.hasFolderAccess(activity)
+        val statusCard = view.findViewById<View>(R.id.status_card)
+        val statusesCard = view.findViewById<View>(R.id.statuses_card)
         val statusText = view.findViewById<TextView>(R.id.status_text)
-        val statusIcon = view.findViewById<ImageView>(R.id.status_icon)
-        val btn = view.findViewById<Button>(R.id.btn_access)
-        if (enabled) {
-            statusText.text = getString(R.string.status_enabled)
-            statusIcon.setColorFilter(Color.parseColor("#16A34A"))
-            btn.text = getString(R.string.btn_access_on)
-            btn.isEnabled = false
-            btn.alpha = 0.6f
-        } else {
-            statusText.text = getString(R.string.status_disabled)
-            statusIcon.setColorFilter(Color.parseColor("#D97706"))
-            btn.text = getString(R.string.btn_enable_access)
-            btn.isEnabled = true
-            btn.alpha = 1f
-        }
+        val liveDot = view.findViewById<View>(R.id.status_live_dot)
+        val btnAccess = view.findViewById<Button>(R.id.btn_access)
+
+        statusText.text = getString(
+            if (listenerEnabled) R.string.status_enabled else R.string.status_disabled
+        )
+        liveDot.visibility = if (listenerEnabled) View.VISIBLE else View.GONE
+        btnAccess.text = getString(
+            if (listenerEnabled) R.string.btn_access_granted else R.string.btn_grant_access
+        )
+        btnAccess.isEnabled = !listenerEnabled
+        // Hide Notification Access card once enabled; hide Statuses shortcut too when both permissions are granted.
+        statusCard.visibility = if (listenerEnabled) View.GONE else View.VISIBLE
+        statusesCard.visibility = if (listenerEnabled && folderGranted) View.GONE else View.VISIBLE
 
         // --- stats ---
         view.findViewById<TextView>(R.id.stat_total).text = db.getTotalCount().toString()
@@ -117,6 +120,7 @@ class HomeFragment : Fragment() {
         val recentContainer = view.findViewById<LinearLayout>(R.id.recent_container)
         recentContainer.removeAllViews()
         val recent = db.getRecent(5)
+        val redact = Prefs(activity).redactPreviews
         if (recent.isEmpty()) {
             val empty = TextView(activity).apply {
                 text = getString(R.string.empty_hint)
@@ -135,9 +139,9 @@ class HomeFragment : Fragment() {
                 row.findViewById<TextView>(R.id.item_app_name).text = n.appName
                 row.findViewById<TextView>(R.id.item_time).text =
                     TimeUtils.relativeTime(n.postTime)
-                row.findViewById<TextView>(R.id.item_title).text =
-                    if (n.title.isNotBlank()) n.title else n.appName
-                row.findViewById<TextView>(R.id.item_text).text = n.text
+                row.findViewById<TextView>(R.id.item_title).text = if (redact) getString(R.string.preview_hidden)
+                    else if (n.title.isNotBlank()) n.title else n.appName
+                row.findViewById<TextView>(R.id.item_text).text = if (redact) getString(R.string.preview_hidden) else n.text
                 row.findViewById<View>(R.id.item_unread_dot).visibility =
                     if (n.isRead) View.GONE else View.VISIBLE
                 row.setOnClickListener {

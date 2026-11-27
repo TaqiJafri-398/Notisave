@@ -13,4 +13,8 @@
     <attr name="successColor" format="color" />
     <attr name="warningColor" format="color" />
     <attr name="dangerColor" format="color" />
+    <attr name="outlineStrong" format="color" />
+    <attr name="inkOnFilled" format="color" />
+    <attr name="disabledColor" format="color" />
+    <attr name="accentRed" format="color" />
 </resources>

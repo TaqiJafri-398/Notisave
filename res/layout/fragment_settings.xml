@@ -21,207 +21,253 @@
             style="@style/Text.SectionTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/section_gap"
             android:text="@string/section_appearance" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/bg_card"
-            android:elevation="2dp"
             android:orientation="vertical"
-            android:padding="@dimen/card_padding">
+            android:divider="?attr/dividerColor"
+            android:showDividers="middle">
 
-            <TextView
-                style="@style/Text.Body"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/theme_label"
-                android:textStyle="bold" />
-
-            <RadioGroup
-                android:id="@+id/theme_group"
+            <Switch
+                android:id="@+id/switch_capture_pause"
+                style="@style/Nothing.Switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical">
+                android:paddingTop="@dimen/row_padding_v"
+                android:paddingBottom="@dimen/row_padding_v"
+                android:text="@string/pause_capture" />
 
-                <RadioButton
-                    android:id="@+id/theme_system"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/theme_system"
-                    android:textColor="?attr/textPrimary" />
+            <Switch
+                android:id="@+id/switch_redact_previews"
+                style="@style/Nothing.Switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/row_padding_v"
+                android:paddingBottom="@dimen/row_padding_v"
+                android:text="@string/redact_previews" />
 
-                <RadioButton
-                    android:id="@+id/theme_light"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/theme_light"
-                    android:textColor="?attr/textPrimary" />
-
-                <RadioButton
-                    android:id="@+id/theme_dark"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/theme_dark"
-                    android:textColor="?attr/textPrimary" />
-            </RadioGroup>
+            <Switch
+                android:id="@+id/switch_app_lock"
+                style="@style/Nothing.Switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/row_padding_v"
+                android:paddingBottom="@dimen/row_padding_v"
+                android:text="@string/app_lock" />
         </LinearLayout>
+
+        <!-- Encrypted Backup -->
+        <TextView
+            style="@style/Text.SectionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/section_gap"
+            android:text="@string/section_backup" />
+
+        <Button
+            android:id="@+id/btn_backup_export"
+            style="@style/Button.Outline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/backup_export" />
+
+        <Button
+            android:id="@+id/btn_backup_import"
+            style="@style/Button.Outline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/backup_import" />
+
+        <!-- Theme -->
+        <TextView
+            style="@style/Text.SectionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/section_gap"
+            android:text="@string/section_theme" />
+
+        <RadioGroup
+            android:id="@+id/theme_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_segmented_container"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
+            <RadioButton
+                android:id="@+id/theme_system"
+                style="@style/Nothing.SegmentedOption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/theme_system_short" />
+
+            <RadioButton
+                android:id="@+id/theme_light"
+                style="@style/Nothing.SegmentedOption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/theme_light" />
+
+            <RadioButton
+                android:id="@+id/theme_dark"
+                style="@style/Nothing.SegmentedOption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/theme_dark" />
+        </RadioGroup>
 
         <!-- Storage -->
         <TextView
             style="@style/Text.SectionTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/section_gap"
             android:text="@string/section_storage" />
+
+        <RadioGroup
+            android:id="@+id/retention_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_segmented_container"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
+            <RadioButton
+                android:id="@+id/retention_30"
+                style="@style/Nothing.SegmentedOption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/retention_30" />
+
+            <RadioButton
+                android:id="@+id/retention_60"
+                style="@style/Nothing.SegmentedOption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/retention_60" />
+
+            <RadioButton
+                android:id="@+id/retention_90"
+                style="@style/Nothing.SegmentedOption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/retention_90" />
+
+            <RadioButton
+                android:id="@+id/retention_unlimited"
+                style="@style/Nothing.SegmentedOption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/retention_unlimited" />
+        </RadioGroup>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_card"
-            android:elevation="2dp"
-            android:orientation="vertical"
-            android:padding="@dimen/card_padding">
+            android:layout_marginTop="14dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView
                 style="@style/Text.Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/storage_used" />
+
+            <TextView
+                android:id="@+id/storage_size"
+                style="@style/Text.BodyStrong"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/retention_label"
-                android:textStyle="bold" />
-
-            <RadioGroup
-                android:id="@+id/retention_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical">
-
-                <RadioButton
-                    android:id="@+id/retention_30"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/retention_30"
-                    android:textColor="?attr/textPrimary" />
-
-                <RadioButton
-                    android:id="@+id/retention_60"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/retention_60"
-                    android:textColor="?attr/textPrimary" />
-
-                <RadioButton
-                    android:id="@+id/retention_90"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/retention_90"
-                    android:textColor="?attr/textPrimary" />
-
-                <RadioButton
-                    android:id="@+id/retention_unlimited"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/retention_unlimited"
-                    android:textColor="?attr/textPrimary" />
-            </RadioGroup>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
-                android:background="?attr/dividerColor" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/Text.Body"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/storage_used" />
-
-                <TextView
-                    android:id="@+id/storage_size"
-                    style="@style/Text.Body"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btn_prune"
-                style="@style/Button.Outline"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/btn_prune_now" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_prune"
+            style="@style/Button.Outline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/btn_prune_now" />
 
         <!-- Permissions -->
         <TextView
             style="@style/Text.SectionTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/section_gap"
             android:text="@string/section_permissions" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_card"
-            android:elevation="2dp"
-            android:orientation="vertical"
-            android:padding="@dimen/card_padding">
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/settings_access_dot"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_dot"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/access_status_text"
                 style="@style/Text.Body"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/status_disabled" />
-
-            <Button
-                android:id="@+id/btn_access_settings"
-                style="@style/Button.Primary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/btn_open_access_settings" />
-
-            <Button
-                android:id="@+id/btn_restart_listener"
-                style="@style/Button.Outline"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/btn_restart_listener" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_access_settings"
+            style="@style/Button.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/btn_open_access_settings" />
+
+        <Button
+            android:id="@+id/btn_restart_listener"
+            style="@style/Button.Outline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/btn_restart_listener" />
 
         <!-- Privacy -->
         <TextView
             style="@style/Text.SectionTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/section_gap"
             android:text="@string/section_privacy" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/bg_card"
-            android:elevation="2dp"
             android:orientation="vertical"
             android:padding="@dimen/card_padding">
 
@@ -232,16 +278,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_shield"
-                    android:tint="@color/accent" />
+                    android:tint="?attr/textPrimary" />
 
                 <TextView
                     style="@style/Text.Body"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="12dp"
                     android:layout_weight="1"
                     android:text="@string/privacy_short" />
             </LinearLayout>
@@ -260,17 +306,14 @@
             style="@style/Text.SectionTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/section_gap"
             android:text="@string/section_about" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_card"
-            android:elevation="2dp"
-            android:orientation="vertical"
-            android:padding="@dimen/card_padding">
+            android:layout_marginTop="12dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -279,18 +322,18 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="52dp"
-                    android:layout_height="52dp"
-                    android:background="@drawable/bg_button_primary"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="@drawable/bg_avatar_square"
                     android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="T"
-                        android:textColor="@color/white"
-                        android:textSize="26sp"
-                        android:textStyle="bold" />
+                        android:fontFamily="sans-serif-medium"
+                        android:text="@string/developer_initial"
+                        android:textColor="?attr/inkOnFilled"
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -301,7 +344,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/Text.SectionTitle"
+                        style="@style/Text.BodyStrong"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/developer_name" />
@@ -310,36 +353,21 @@
                         style="@style/Text.Caption"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/developer_role" />
-
-                    <TextView
-                        style="@style/Text.Body"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="@string/contact_whatsapp" />
+                        android:text="@string/developer_meta" />
                 </LinearLayout>
             </LinearLayout>
-
-            <TextView
-                style="@style/Text.Body"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/app_description"
-                android:textColor="?attr/textSecondary" />
 
             <Button
                 android:id="@+id/btn_whatsapp"
                 style="@style/Button.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:drawableStart="@drawable/ic_chat"
-                android:drawablePadding="8dp"
+                android:layout_marginTop="14dp"
                 android:text="@string/btn_whatsapp" />
 
             <TextView
+                android:id="@+id/app_version_text"
                 style="@style/Text.Caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

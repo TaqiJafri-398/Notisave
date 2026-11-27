@@ -33,7 +33,16 @@
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingTop="6dp">
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
+
+            <View
+                android:id="@+id/nav_home_dot"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/bg_dot"
+                android:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/nav_home_icon"
@@ -47,8 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="@string/nav_home"
-                android:textSize="11sp"
-                android:textStyle="bold" />
+                android:textSize="11sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -61,7 +69,16 @@
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingTop="6dp">
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
+
+            <View
+                android:id="@+id/nav_notifications_dot"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/bg_dot"
+                android:visibility="invisible" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -94,8 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="@string/nav_notifications"
-                android:textSize="11sp"
-                android:textStyle="bold" />
+                android:textSize="11sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -108,7 +124,16 @@
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingTop="6dp">
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
+
+            <View
+                android:id="@+id/nav_statuses_dot"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/bg_dot"
+                android:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/nav_statuses_icon"
@@ -122,8 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="@string/nav_statuses"
-                android:textSize="11sp"
-                android:textStyle="bold" />
+                android:textSize="11sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -136,7 +160,16 @@
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingTop="6dp">
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
+
+            <View
+                android:id="@+id/nav_apps_dot"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/bg_dot"
+                android:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/nav_apps_icon"
@@ -150,8 +183,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="@string/nav_apps"
-                android:textSize="11sp"
-                android:textStyle="bold" />
+                android:textSize="11sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -164,7 +196,16 @@
             android:focusable="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingTop="6dp">
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
+
+            <View
+                android:id="@+id/nav_settings_dot"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/bg_dot"
+                android:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/nav_settings_icon"
@@ -178,8 +219,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="@string/nav_settings"
-                android:textSize="11sp"
-                android:textStyle="bold" />
+                android:textSize="11sp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

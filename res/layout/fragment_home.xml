@@ -18,22 +18,8 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@drawable/bg_button_primary"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
-                    android:src="@drawable/ic_bell"
-                    android:tint="@color/white" />
-            </LinearLayout>
-
-            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -44,30 +30,54 @@
                     android:text="@string/app_name" />
 
                 <TextView
-                    style="@style/Text.Caption"
+                    style="@style/Text.Subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
                     android:text="@string/home_title" />
             </LinearLayout>
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:alpha="0.22"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_glyph_dots" />
         </LinearLayout>
 
-        <!-- Access status card -->
+        <!-- Notification Access box (hidden when enabled) -->
         <LinearLayout
             android:id="@+id/status_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/bg_card"
-            android:elevation="2dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="@dimen/card_padding">
 
-            <ImageView
-                android:id="@+id/status_icon"
+            <FrameLayout
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_shield" />
+                android:background="@drawable/bg_icon_container">
+
+                <ImageView
+                    android:id="@+id/status_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_shield"
+                    android:tint="?attr/textPrimary" />
+
+                <View
+                    android:id="@+id/status_live_dot"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/bg_dot"
+                    android:visibility="gone" />
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -77,14 +87,14 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/Text.SectionTitle"
+                    style="@style/Text.BodyStrong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/status_title" />
 
                 <TextView
                     android:id="@+id/status_text"
-                    style="@style/Text.Body"
+                    style="@style/Text.Caption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
@@ -93,31 +103,36 @@
 
             <Button
                 android:id="@+id/btn_access"
-                style="@style/Button.Primary"
+                style="@style/Button.Outline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="@string/btn_enable_access" />
+                android:layout_marginStart="8dp"
+                android:text="@string/btn_grant_access" />
         </LinearLayout>
 
-        <!-- WhatsApp statuses shortcut -->
+        <!-- WhatsApp Statuses box (hidden when both permissions are granted) -->
         <LinearLayout
             android:id="@+id/statuses_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_card"
-            android:elevation="2dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="@dimen/card_padding">
 
-            <ImageView
+            <FrameLayout
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_download"
-                android:tint="@color/accent" />
+                android:background="@drawable/bg_icon_container">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_download"
+                    android:tint="?attr/textPrimary" />
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -127,18 +142,17 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/Text.SectionTitle"
+                    style="@style/Text.BodyStrong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/home_statuses_title" />
 
                 <TextView
-                    style="@style/Text.Body"
+                    style="@style/Text.Caption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="@string/home_statuses_subtitle"
-                    android:textColor="?attr/textSecondary" />
+                    android:text="@string/home_statuses_subtitle" />
             </LinearLayout>
 
             <Button
@@ -146,117 +160,137 @@
                 style="@style/Button.Primary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
                 android:text="@string/btn_open" />
         </LinearLayout>
 
-        <!-- Stats -->
+        <!-- Stats: 4 outlined stat boxes in a row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_stat_card"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="10dp">
+
+                <TextView
+                    style="@style/Text.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/stat_total"
+                    android:textAllCaps="true"
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/stat_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="sans-serif-medium"
                     android:text="0"
-                    android:textColor="@color/primary"
-                    android:textSize="@dimen/stat_number"
-                    android:textStyle="bold" />
-
-                <TextView
-                    style="@style/Text.Caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/stat_total" />
+                    android:textColor="?attr/textPrimary"
+                    android:textSize="@dimen/stat_number" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_stat_card"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="10dp">
+
+                <TextView
+                    style="@style/Text.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/stat_today"
+                    android:textAllCaps="true"
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/stat_today"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="sans-serif-medium"
                     android:text="0"
-                    android:textColor="@color/primary"
-                    android:textSize="@dimen/stat_number"
-                    android:textStyle="bold" />
-
-                <TextView
-                    style="@style/Text.Caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/stat_today" />
+                    android:textColor="@color/accent_red"
+                    android:textSize="@dimen/stat_number" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_stat_card"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="10dp">
+
+                <TextView
+                    style="@style/Text.Caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/stat_week"
+                    android:textAllCaps="true"
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/stat_week"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="sans-serif-medium"
                     android:text="0"
-                    android:textColor="@color/primary"
-                    android:textSize="@dimen/stat_number"
-                    android:textStyle="bold" />
-
-                <TextView
-                    style="@style/Text.Caption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/stat_week" />
+                    android:textColor="?attr/textPrimary"
+                    android:textSize="@dimen/stat_number" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_stat_card"
                 android:orientation="vertical"
-                android:padding="12dp">
-
-                <TextView
-                    android:id="@+id/stat_whatsapp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textColor="@color/accent"
-                    android:textSize="@dimen/stat_number"
-                    android:textStyle="bold" />
+                android:padding="10dp">
 
                 <TextView
                     style="@style/Text.Caption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/stat_whatsapp" />
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/stat_whatsapp"
+                    android:textAllCaps="true"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/stat_whatsapp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="0"
+                    android:textColor="?attr/textPrimary"
+                    android:textSize="@dimen/stat_number" />
             </LinearLayout>
         </LinearLayout>
 
@@ -264,7 +298,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -281,9 +315,8 @@
                 android:layout_height="wrap_content"
                 android:padding="4dp"
                 android:text="@string/see_all"
-                android:textColor="@color/primary"
-                android:textSize="13sp"
-                android:textStyle="bold" />
+                android:textColor="?attr/textSecondary"
+                android:textSize="13sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -292,7 +325,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:background="@drawable/bg_card"
-            android:elevation="2dp"
             android:orientation="vertical"
             android:padding="@dimen/card_padding" />
 
@@ -300,7 +332,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -317,9 +349,8 @@
                 android:layout_height="wrap_content"
                 android:padding="4dp"
                 android:text="@string/see_all"
-                android:textColor="@color/primary"
-                android:textSize="13sp"
-                android:textStyle="bold" />
+                android:textColor="?attr/textSecondary"
+                android:textSize="13sp" />
         </LinearLayout>
 
         <LinearLayout

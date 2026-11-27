@@ -1,41 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Brand -->
-    <color name="primary">#4F46E5</color>
-    <color name="primary_dark">#3730A3</color>
-    <color name="primary_soft">#EEF0FE</color>
-    <color name="accent">#0891B2</color>
-    <color name="accent_soft">#E0F2F7</color>
+    <!-- Nothing OS accent (the only non-monochrome color) -->
+    <color name="accent_red">#D71921</color>
 
-    <!-- Light theme surfaces -->
-    <color name="page_bg_light">#F3F5F9</color>
+    <!-- Legacy color aliases mapped to monochrome / Nothing red -->
+    <color name="primary">#111111</color>
+    <color name="primary_dark">#000000</color>
+    <color name="primary_soft">#FFFFFF</color>
+    <color name="accent">#D71921</color>
+    <color name="accent_soft">#FFFFFF</color>
+
+    <!-- Light theme tokens -->
+    <color name="page_bg_light">#FFFFFF</color>
     <color name="card_bg_light">#FFFFFF</color>
-    <color name="text_primary_light">#111827</color>
-    <color name="text_secondary_light">#6B7280</color>
-    <color name="divider_light">#E5E7EB</color>
-    <color name="chip_bg_light">#E8EAF6</color>
+    <color name="text_primary_light">#111111</color>
+    <color name="text_secondary_light">#6B6B6B</color>
+    <color name="divider_light">#E3E3E0</color>
+    <color name="outline_strong_light">#111111</color>
+    <color name="chip_bg_light">#FFFFFF</color>
     <color name="nav_bg_light">#FFFFFF</color>
-    <color name="nav_unselected_light">#9CA3AF</color>
+    <color name="nav_unselected_light">#6B6B6B</color>
+    <color name="disabled_light">#BDBDBD</color>
+    <color name="ink_on_filled_light">#FFFFFF</color>
 
-    <!-- Dark theme surfaces -->
-    <color name="page_bg_dark">#0F1115</color>
-    <color name="card_bg_dark">#1B1E27</color>
-    <color name="text_primary_dark">#F3F4F6</color>
-    <color name="text_secondary_dark">#9CA3AF</color>
-    <color name="divider_dark">#2A2E3A</color>
-    <color name="chip_bg_dark">#262A38</color>
-    <color name="nav_bg_dark">#16181F</color>
-    <color name="nav_unselected_dark">#6B7280</color>
-    <color name="primary_soft_dark">#2A2D4A</color>
-    <color name="accent_soft_dark">#16303A</color>
+    <!-- Dark theme tokens -->
+    <color name="page_bg_dark">#000000</color>
+    <color name="card_bg_dark">#000000</color>
+    <color name="text_primary_dark">#FFFFFF</color>
+    <color name="text_secondary_dark">#9A9A9A</color>
+    <color name="divider_dark">#2A2A2A</color>
+    <color name="outline_strong_dark">#FFFFFF</color>
+    <color name="chip_bg_dark">#000000</color>
+    <color name="nav_bg_dark">#000000</color>
+    <color name="nav_unselected_dark">#9A9A9A</color>
+    <color name="disabled_dark">#555555</color>
+    <color name="ink_on_filled_dark">#000000</color>
+    <color name="primary_soft_dark">#000000</color>
+    <color name="accent_soft_dark">#000000</color>
 
-    <!-- Status -->
-    <color name="success">#16A34A</color>
-    <color name="success_dark">#34D399</color>
-    <color name="warning">#D97706</color>
-    <color name="warning_dark">#FBBF24</color>
-    <color name="danger">#DC2626</color>
-    <color name="danger_dark">#F87171</color>
+    <!-- Semantic aliases (monochrome + Nothing red only) -->
+    <color name="success">#D71921</color>
+    <color name="success_dark">#D71921</color>
+    <color name="warning">#111111</color>
+    <color name="warning_dark">#FFFFFF</color>
+    <color name="danger">#D71921</color>
+    <color name="danger_dark">#D71921</color>
     <color name="white">#FFFFFF</color>
-    <color name="badge_red">#EF4444</color>
+    <color name="black">#000000</color>
+    <color name="badge_red">#D71921</color>
 </resources>

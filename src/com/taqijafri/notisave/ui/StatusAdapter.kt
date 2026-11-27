@@ -59,6 +59,7 @@ class StatusAdapter(
         val play = view.findViewById<ImageView>(R.id.status_play)
         val savedBadge = view.findViewById<TextView>(R.id.status_saved_badge)
         val saveBtn = view.findViewById<ImageButton>(R.id.status_save_btn)
+        val unseenDot = view.findViewById<View>(R.id.status_unseen_dot)
 
         val bitmap = thumbFor(status)
         if (bitmap != null) thumb.setImageBitmap(bitmap)
@@ -68,6 +69,7 @@ class StatusAdapter(
         val saved = isSaved(status)
         savedBadge.visibility = if (saved) View.VISIBLE else View.GONE
         saveBtn.visibility = if (saved) View.GONE else View.VISIBLE
+        unseenDot.visibility = if (saved) View.GONE else View.VISIBLE
 
         view.setOnClickListener { onItemClick(status) }
         saveBtn.setOnClickListener { onSave(status) }
